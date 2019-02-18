@@ -115,7 +115,6 @@ class GaussMethod:
         s = 0
         for line in matrix:
             s = max(s, sum(map(abs, line)))
-        print('kek', s)
         return s
 
     @staticmethod
