@@ -2,7 +2,7 @@ class GaussMethod:
 
     @staticmethod
     def solve(equation):
-        eps = 10 ** -9
+        eps = 10 ** -3
 
         for i in range(min(equation.n, equation.m)):
             if abs(equation.A[i][i]) < eps:
@@ -28,7 +28,7 @@ class GaussMethod:
             sum = 0
             for k in range(equation.m - 1, i, -1):
                 sum += equation.A[i][k] * equation.X[equation.m - 1 - k]
-            x = (equation.A[i][equation.m] - sum) / equation.A[i][i]
+            x = round((equation.A[i][equation.m] - sum) / equation.A[i][i], 4)
             equation.X.append(x)
 
         equation.X.reverse()
@@ -84,24 +84,30 @@ class GaussMethod:
 
         m = len(matrix[0]) // 2
         matrix = [line[m:] for line in matrix]
+
+        matrix = [[
+                round(j, 4) for j in i
+            ]
+            for i in matrix
+        ]
+
         return matrix
 
     @staticmethod
     def errorEstimates(initA, X):
-        rateA = GaussMethod.matrixRate(initA)
+        rateA = GaussMethod.matrixRate([line[:-1] for line in initA])
         rateb = GaussMethod.freeMatrixMembersRate(initA)
-        rateInvA = GaussMethod.matrixRate(GaussMethod.inverseMatrix(initA))
-
+        rateInvA = round(GaussMethod.matrixRate(GaussMethod.inverseMatrix(initA)), 4)
         rateX = GaussMethod.solutionsRate(X)
         absErrB = 0.001
 
         absErrX = rateInvA * absErrB
-        relativeErrX = absErrX / rateX
+        relativeErrX = round(absErrX / rateX, 4)
 
-        relativeErrB = absErrB / rateb
+        relativeErrB = round(absErrB / rateb, 4)
 
         print("Absolute error: ", absErrX)
-        print("Relative error: ", relativeErrX, "<=", rateA * rateInvA * relativeErrB)
+        print("Relative error: ", relativeErrX, "<=", round(rateA * rateInvA * relativeErrB, 4))
 
     @staticmethod
     def solutionsRate(vectorX):
@@ -115,7 +121,6 @@ class GaussMethod:
         s = 0
         for line in matrix:
             s = max(s, sum(map(abs, line)))
-        print('kek', s)
         return s
 
     @staticmethod

@@ -24,15 +24,17 @@ if __name__ == '__main__':
     equation = Equation(A)
 
     GaussMethod.solve(equation)
+    print("Answer:")
+    print(equation.X, end='\n\n')
 
+    inverse_matrix = GaussMethod.inverseMatrix(matrix)
+    print("Inverse matrix: ")
+    for line in inverse_matrix:
+        print(line)
+
+    print()
     GaussMethod.errorEstimates(matrix_copy, equation.X)
 
-    print("answer:")
-    print(equation.X)
-    print()
-
-    for line in GaussMethod.inverseMatrix(matrix):
-        print(line)
 
 
 
