@@ -9,4 +9,5 @@ class Equation:
              ]
              for i in range(self.n)
          ]
+         self.seidel_matrix = []
 
