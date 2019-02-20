@@ -2,6 +2,7 @@ from Equation import *
 from SIM import SIM
 from GaussMethod import *
 from SeidelMethod import SeidelMethod
+from SquareRootMethod import SquareRootMethod
 
 
 if __name__ == '__main__':
@@ -13,10 +14,13 @@ if __name__ == '__main__':
     ]
 
     equation = Equation(A)
-    SIM.solve(equation)
+    SquareRootMethod.matrix_det([line[:-1] for line in equation.A])
+    SquareRootMethod.find_inverse_matrix([line[:-1] for line in equation.A])
+    SquareRootMethod.solve(equation)
 
-    #SeidelMethod.solve(equation)
-    #SIM.print_matrix(equation.seidel_matrix)
+
+
+
 
 
 
