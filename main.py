@@ -1,18 +1,19 @@
 from Equation import *
 from SIM import SIM
-from GaussMethod import *
 from SeidelMethod import SeidelMethod
+from OutputMethods import OutputMethods
 import sys
+
 
 def seidel():
     print('Seidel method: ')
     SeidelMethod.solve(equation)
-    SIM.get_answer(equation.seidel_matrix)
+    OutputMethods.get_answer(equation.seidel_matrix)
 
 def sim():
     print('Method of simple iterations: ')
     SIM.solve(equation)
-    SIM.get_answer(equation.x_matrix)
+    OutputMethods.get_answer(equation.x_matrix)
 
 
 if __name__ == '__main__':
@@ -24,7 +25,7 @@ if __name__ == '__main__':
     ]
 
     print('Initial system: ')
-    SIM.print_system(A)
+    OutputMethods.print_system(A)
 
     equation = Equation(A)
 

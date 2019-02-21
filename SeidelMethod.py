@@ -1,9 +1,12 @@
 from SIM import SIM
+from OutputMethods import OutputMethods
+
+
 class SeidelMethod:
     @staticmethod
     def solve(equation):
         SIM.convert_system(equation)
-        SIM.print_system(equation.A)
+        OutputMethods.print_system(equation.A)
         SeidelMethod.do_iteration(equation, 0)
         cond = False
         k = 1
@@ -19,7 +22,7 @@ class SeidelMethod:
             for i in range(equation.n):
                 equation.seidel_matrix.append([])
                 equation.seidel_matrix[i].append(0)
-            SIM.print_matrix(equation.seidel_matrix)
+            OutputMethods.print_matrix(equation.seidel_matrix)
             return
 
         for i in range(equation.n):
@@ -29,10 +32,7 @@ class SeidelMethod:
 
             equation.seidel_matrix[i].append(res_x + equation.A[i][equation.m])
 
-        SIM.print_matrix(equation.seidel_matrix)
-
-
-
+        OutputMethods.print_matrix(equation.seidel_matrix)
 
     @staticmethod
     def check_condition(equation, iter_num):

@@ -1,6 +1,6 @@
 from GaussMethod import GaussMethod
 from math import log
-
+from OutputMethods import OutputMethods
 
 class SIM:
 
@@ -8,7 +8,7 @@ class SIM:
     def solve(equation):
         SIM.convert_system(equation)
         print('System after converting: ')
-        SIM.print_system(equation.A)
+        OutputMethods.print_system(equation.A)
 
         print('Convergence condition of SIM: ')
         rate_matrix_b = GaussMethod.matrixRate([line[:-1] for line in equation.A])
@@ -61,7 +61,7 @@ class SIM:
                 equation.x_matrix[i].append(equation.A[i][equation.m])
 
             print('iteration', iter_num, ':')
-            SIM.print_matrix(equation.x_matrix)
+            OutputMethods.print_matrix(equation.x_matrix)
             return
 
         for i in range(equation.n):
@@ -71,27 +71,6 @@ class SIM:
             equation.x_matrix[i].append(res_x + equation.A[i][equation.m])
 
         print('iteration', iter_num, ':')
-        SIM.print_matrix(equation.x_matrix)
+        OutputMethods.print_matrix(equation.x_matrix)
 
-    @staticmethod
-    def print_matrix(matrix):
-        for line in matrix:
-            print([round(el, 3) for el in line])
-        print()
 
-    @staticmethod
-    def print_system(matrix):
-        for line in matrix:
-            print('[', end='')
-            for el in line[:-1]:
-                print("{:6.3f}".format(el), end=' ')
-            print(']', '|', [round(line[-1], 3)])
-        print()
-
-    @staticmethod
-    def get_answer(matrix_x):
-        out = []
-        for line in matrix_x:
-            out += [line[-1]]
-
-        print('answer: ', [round(el, 3) for el in out])
