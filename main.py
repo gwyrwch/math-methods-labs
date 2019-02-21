@@ -12,6 +12,8 @@ if __name__ == '__main__':
         for line in f
     ]
 
+    SIM.print_system(A)
+
     equation = Equation(A)
     SIM.solve(equation)
 

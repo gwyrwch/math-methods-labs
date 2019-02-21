@@ -1,25 +1,27 @@
 from GaussMethod import GaussMethod
 from math import log
 
+
 class SIM:
 
     @staticmethod
     def solve(equation):
         SIM.convert_system(equation)
+        print('System after converting: ')
+        SIM.print_system(equation.A)
 
-        matrixB = [line[:-1] for line in equation.A]
-        rateB = GaussMethod.matrixRate(matrixB)
-        print('Rate of matrix B: ',rateB, '<', 1, '--', rateB < 1)
+        print('Convergence condition of SIM: ')
+        rate_matrix_b = GaussMethod.matrixRate([line[:-1] for line in equation.A])
+        print('Rate of matrix B(matrix after converting): ', rate_matrix_b, '<', 1, '--', rate_matrix_b < 1, '\n')
 
-        SIM.print_matrix(equation.A)
-        print()
         SIM.do_iteration(equation, 0)
         SIM.do_iteration(equation, 1)
         k = SIM.get_number_of_iterations(
-            rateB,
+            rate_matrix_b,
             [line[0] for line in equation.x_matrix],
             [line[1] for line in equation.x_matrix]
         )
+        print('Number of needed iterations is: ', 'k =', k)
 
         for i in range(2, k + 1):
             SIM.do_iteration(equation, i)
@@ -56,6 +58,9 @@ class SIM:
         if iter_num == 0:
             for i in range(equation.n):
                 equation.x_matrix[i][iter_num] = equation.A[i][equation.m]
+
+            print('iteration', iter_num, ':')
+            SIM.print_matrix(equation.x_matrix)
             return
 
         for i in range(equation.n):
@@ -70,4 +75,10 @@ class SIM:
     def print_matrix(matrix):
         for line in matrix:
             print([round(el, 3) for el in line])
+        print()
+
+    @staticmethod
+    def print_system(matrix):
+        for line in matrix:
+            print([round(el, 3) for el in line[:-1]], '|', [round(line[-1], 3)])
         print()
