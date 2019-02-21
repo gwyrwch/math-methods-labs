@@ -2,3 +2,5 @@
 __pycache__/
 venv/
 Equation.pyc
+GaussMethod.pyc
+SIM.pyc
