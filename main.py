@@ -10,6 +10,7 @@ def seidel():
     SeidelMethod.solve(equation)
     OutputMethods.get_answer(equation.seidel_matrix)
 
+
 def sim():
     print('Method of simple iterations: ')
     SIM.solve(equation)
@@ -33,7 +34,7 @@ if __name__ == '__main__':
         seidel()
     elif sys.argv[1] == 'sim':
         sim()
-    else :
+    else:
         print('wrong argument')
 
 
