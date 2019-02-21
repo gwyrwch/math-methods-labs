@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     equation = Equation(A)
 
-    if sys.argv[2] == 'seidel':
+    if sys.argv[1] == 'seidel':
         seidel()
     elif sys.argv[1] == 'sim':
         sim()
