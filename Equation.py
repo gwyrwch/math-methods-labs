@@ -4,10 +4,6 @@ class Equation:
          self.n = len(A)
          self.m = len(A[0]) - 1
          self.X = []
-         self.x_matrix = [[
-                0 for j in range(self.n)
-             ]
-             for i in range(self.n)
-         ]
+         self.x_matrix = []
          self.seidel_matrix = []
 

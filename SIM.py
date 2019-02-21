@@ -21,7 +21,7 @@ class SIM:
             [line[0] for line in equation.x_matrix],
             [line[1] for line in equation.x_matrix]
         )
-        print('Number of needed iterations is: ', 'k =', k)
+        print('Number of needed iterations is: ', 'k =', k, '\n')
 
         for i in range(2, k + 1):
             SIM.do_iteration(equation, i)
@@ -57,16 +57,18 @@ class SIM:
     def do_iteration(equation, iter_num):
         if iter_num == 0:
             for i in range(equation.n):
-                equation.x_matrix[i][iter_num] = equation.A[i][equation.m]
+                equation.x_matrix.append([])
+                equation.x_matrix[i].append(equation.A[i][equation.m])
 
             print('iteration', iter_num, ':')
             SIM.print_matrix(equation.x_matrix)
             return
 
         for i in range(equation.n):
+            res_x = 0
             for j in range(equation.n):
-                equation.x_matrix[i][iter_num] += equation.x_matrix[j][iter_num - 1] * equation.A[i][j]
-            equation.x_matrix[i][iter_num] += equation.A[i][equation.m]
+                res_x += equation.x_matrix[j][iter_num - 1] * equation.A[i][j]
+            equation.x_matrix[i].append(res_x + equation.A[i][equation.m])
 
         print('iteration', iter_num, ':')
         SIM.print_matrix(equation.x_matrix)
@@ -80,5 +82,16 @@ class SIM:
     @staticmethod
     def print_system(matrix):
         for line in matrix:
-            print([round(el, 3) for el in line[:-1]], '|', [round(line[-1], 3)])
+            print('[', end='')
+            for el in line[:-1]:
+                print("{:6.3f}".format(el), end=' ')
+            print(']', '|', [round(line[-1], 3)])
         print()
+
+    @staticmethod
+    def get_answer(matrix_x):
+        out = []
+        for line in matrix_x:
+            out += [line[-1]]
+
+        print('answer: ', [round(el, 3) for el in out])

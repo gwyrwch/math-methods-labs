@@ -3,7 +3,7 @@ class SeidelMethod:
     @staticmethod
     def solve(equation):
         SIM.convert_system(equation)
-        SIM.print_matrix(equation.A)
+        SIM.print_system(equation.A)
         SeidelMethod.do_iteration(equation, 0)
         cond = False
         k = 1
@@ -14,10 +14,12 @@ class SeidelMethod:
 
     @staticmethod
     def do_iteration(equation, iter_num):
+        print('iteration: ', iter_num)
         if not iter_num:
             for i in range(equation.n):
                 equation.seidel_matrix.append([])
                 equation.seidel_matrix[i].append(0)
+            SIM.print_matrix(equation.seidel_matrix)
             return
 
         for i in range(equation.n):
@@ -26,6 +28,9 @@ class SeidelMethod:
                 res_x += equation.A[i][j] * equation.seidel_matrix[j][iter_num if j < i else iter_num - 1]
 
             equation.seidel_matrix[i].append(res_x + equation.A[i][equation.m])
+
+        SIM.print_matrix(equation.seidel_matrix)
+
 
 
 
@@ -39,8 +44,13 @@ class SeidelMethod:
             rate = max(rate, abs(x_cur[i] - x_prev[i]))
 
         rate = round(rate, 2)
-        print(rate)
+
         if rate - epsilon <= 10 ** -19:
+            print('Condition: ', rate, '<=', epsilon, '\n')
             return True
+        print('Condition: ', rate, '>', epsilon, '\n')
         return False
+
+
+
 
