@@ -1,4 +1,5 @@
 from OutputMethods import OutputMethods
+from numpy import linalg
 
 
 class GaussMethod:
@@ -61,7 +62,10 @@ class GaussMethod:
                 matrix[i] += [1] if i == j else [0]
 
         m = len(matrix[0])
+        print('Extended matrix:')
+        OutputMethods.print_extended_matrix(matrix)
 
+        print('Step by step solution. Direct move: ')
         for i in range(min(len(matrix), m)):
             if abs(matrix[i][i]) < eps:
                 bad = True
@@ -78,6 +82,9 @@ class GaussMethod:
                 for k in range(0, m):
                     matrix[j][k] -= matrix[i][k] * factor
 
+            OutputMethods.print_extended_matrix(matrix)
+
+        print('Using reverse: ')
         for i in range(len(matrix) - 1, -1, -1):
             divider = matrix[i][i]
             for j in range(m):
@@ -88,6 +95,8 @@ class GaussMethod:
                 factor = matrix[i][j]
                 for k in range(0, m):
                     matrix[i][k] -= matrix[j][k] * factor
+
+            OutputMethods.print_extended_matrix(matrix)
 
         m = len(matrix[0]) // 2
         matrix = [line[m:] for line in matrix]
@@ -109,7 +118,17 @@ class GaussMethod:
             ]
         )
         rateb = GaussMethod.free_matrix_members_rate(init_matrix)
-        rate_inv_a = round(GaussMethod.matrix_rate(GaussMethod.inverse_matrix(init_matrix)), 4)
+        rate_inv_a = round(
+            GaussMethod.matrix_rate(
+                linalg.inv(
+                    [
+                        line[:-1]
+                        for line in init_matrix
+                    ]
+                )
+            ),
+            4
+        )
         rate_x = GaussMethod.solutions_rate(x)
 
         abs_err_b = 0.001

@@ -1,6 +1,29 @@
 from Equation import *
 from GaussMethod import GaussMethod
 from OutputMethods import OutputMethods
+import sys
+
+
+def gauss():
+    print('Gaussian elimination method. Initial system: ')
+    OutputMethods.print_system(equation.A)
+
+    GaussMethod.solve(equation)
+    print(
+        "\nAnswer:",
+        equation.X,
+        end='\n\n'
+    )
+
+    print('Error estimates. ')
+    GaussMethod.error_estimates(matrix_copy, equation.X)
+
+
+def inverse_matrix():
+    print("Inverse matrix. ")
+    OutputMethods.print_matrix(
+        GaussMethod.inverse_matrix(matrix)
+    )
 
 
 if __name__ == '__main__':
@@ -11,34 +34,25 @@ if __name__ == '__main__':
         for line in f
     ]
 
-    matrix = [
+    matrix_copy = [
         [j for j in i]
         for i in A
     ]
 
-    matrix_copy = [
-        [j for j in i]
-        for i in matrix
-    ]
-
-    matrix = [line[:-1] for line in matrix]
+    matrix = [line[:-1] for line in A]
 
     equation = Equation(A)
 
-    print('Initial system: ')
-    OutputMethods.print_system(equation.A)
+    if sys.argv[1] == 'gauss':
+        gauss()
+    elif sys.argv[1] == 'inverse_matrix':
+        inverse_matrix()
+    else:
+        print('wrong args')
 
-    GaussMethod.solve(equation)
-    print("\nAnswer:")
-    print(equation.X, end='\n\n')
 
-    inverse_matrix = GaussMethod.inverse_matrix(matrix)
-    print("Inverse matrix: ")
-    for line in inverse_matrix:
-        print(line)
 
-    print()
-    GaussMethod.error_estimates(matrix_copy, equation.X)
+
 
 
 

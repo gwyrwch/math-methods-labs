@@ -22,3 +22,15 @@ class OutputMethods:
             out += [line[-1]]
 
         print('answer: ', [round(el, 3) for el in out])
+
+    @staticmethod
+    def print_extended_matrix(matrix):
+        for line in matrix:
+            print('[', end='')
+            for el in line[:len(line) // 2]:
+                print("{:6.3f}".format(el), end=' ')
+            print('|', end=' ')
+            for el in line[len(line) // 2:]:
+                print("{:6.3f}".format(el), end=' ')
+            print(']')
+        print()
