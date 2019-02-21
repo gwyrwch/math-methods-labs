@@ -1,9 +1,12 @@
-class GaussMethod:
+from OutputMethods import OutputMethods
 
+
+class GaussMethod:
     @staticmethod
     def solve(equation):
         eps = 10 ** -3
 
+        print('Step by step solution. Direct move: ')
         for i in range(min(equation.n, equation.m)):
             if abs(equation.A[i][i]) < eps:
                 bad = True
@@ -19,34 +22,37 @@ class GaussMethod:
                 factor = equation.A[j][i] / equation.A[i][i]
                 for k in range(0, equation.m + 1):
                     equation.A[j][k] -= equation.A[i][k] * factor
+            OutputMethods.print_system(equation.A)
 
+        print('Using back-substitution: ')
         for i in range(equation.m - 1, -1, -1):
             if i >= equation.n or abs(equation.A[i][i]) < eps:
                 equation.X.append(0)
                 continue
 
-            sum = 0
+            s = 0
             for k in range(equation.m - 1, i, -1):
-                sum += equation.A[i][k] * equation.X[equation.m - 1 - k]
-            x = round((equation.A[i][equation.m] - sum) / equation.A[i][i], 4)
+                s += equation.A[i][k] * equation.X[equation.m - 1 - k]
+            x = round((equation.A[i][equation.m] - s) / equation.A[i][i], 4)
             equation.X.append(x)
+            print(equation.X)
 
         equation.X.reverse()
 
         wrong = False
         for j in range(equation.n):
-            sum = 0
+            s = 0
             for i in range(equation.m):
-                sum += equation.X[i] * equation.A[j][i]
+                s += equation.X[i] * equation.A[j][i]
 
-            wrong = wrong or abs(sum - equation.A[j][equation.m]) > eps
+            wrong = wrong or abs(s - equation.A[j][equation.m]) > eps
 
         if wrong:
             print('No solution')
             return
 
     @staticmethod
-    def inverseMatrix(matrix):
+    def inverse_matrix(matrix):
         eps = 10 ** -9
         m = len(matrix[0])
 
@@ -75,8 +81,9 @@ class GaussMethod:
         for i in range(len(matrix) - 1, -1, -1):
             divider = matrix[i][i]
             for j in range(m):
-                if(abs(matrix[i][j]) > eps):
+                if abs(matrix[i][j]) > eps:
                     matrix[i][j] /= divider
+
             for j in range(i + 1, len(matrix)):
                 factor = matrix[i][j]
                 for k in range(0, m):
@@ -94,41 +101,54 @@ class GaussMethod:
         return matrix
 
     @staticmethod
-    def errorEstimates(initA, X):
-        rateA = GaussMethod.matrixRate([line[:-1] for line in initA])
-        rateb = GaussMethod.freeMatrixMembersRate(initA)
-        rateInvA = round(GaussMethod.matrixRate(GaussMethod.inverseMatrix(initA)), 4)
-        rateX = GaussMethod.solutionsRate(X)
-        absErrB = 0.001
+    def error_estimates(init_matrix, x):
+        rate_a = GaussMethod.matrix_rate(
+            [
+                line[:-1]
+                for line in init_matrix
+            ]
+        )
+        rateb = GaussMethod.free_matrix_members_rate(init_matrix)
+        rate_inv_a = round(GaussMethod.matrix_rate(GaussMethod.inverse_matrix(init_matrix)), 4)
+        rate_x = GaussMethod.solutions_rate(x)
 
-        absErrX = rateInvA * absErrB
-        relativeErrX = round(absErrX / rateX, 4)
+        abs_err_b = 0.001
+        abs_err_x = rate_inv_a * abs_err_b
+        relative_err_x = round(abs_err_x / rate_x, 4)
+        relative_err_b = round(abs_err_b / rateb, 4)
 
-        relativeErrB = round(absErrB / rateb, 4)
-
-        print("Absolute error: ", absErrX)
-        print("Relative error: ", relativeErrX, "<=", round(rateA * rateInvA * relativeErrB, 4))
+        print(
+            "Absolute error: ",
+            abs_err_x
+        )
+        print(
+            "Relative error: ",
+            relative_err_x,
+            "<=",
+            round(rate_a * rate_inv_a * relative_err_b, 4)
+        )
 
     @staticmethod
-    def solutionsRate(vectorX):
-        maxX = 0
-        for x in vectorX:
-            maxX = max(maxX, x)
-        return maxX
+    def solutions_rate(vector_x):
+        max_x = 0
+        for x in vector_x:
+            max_x = max(max_x, x)
+        return max_x
 
     @staticmethod
-    def matrixRate(matrix):
+    def matrix_rate(matrix):
         s = 0
         for line in matrix:
             s = max(s, sum(map(abs, line)))
         return s
 
     @staticmethod
-    def freeMatrixMembersRate(matrix):
+    def free_matrix_members_rate(matrix):
         maxb = 0
-        bPosition = len(matrix[0]) - 1
+        b_position = len(matrix[0]) - 1
+
         for i in range(len(matrix)):
-            maxb = max(maxb, matrix[i][bPosition])
+            maxb = max(maxb, matrix[i][b_position])
 
         return maxb
 

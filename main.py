@@ -1,5 +1,7 @@
 from Equation import *
-from GaussMethod import *
+from GaussMethod import GaussMethod
+from OutputMethods import OutputMethods
+
 
 if __name__ == '__main__':
     f = open("input.txt")
@@ -23,17 +25,20 @@ if __name__ == '__main__':
 
     equation = Equation(A)
 
+    print('Initial system: ')
+    OutputMethods.print_system(equation.A)
+
     GaussMethod.solve(equation)
-    print("Answer:")
+    print("\nAnswer:")
     print(equation.X, end='\n\n')
 
-    inverse_matrix = GaussMethod.inverseMatrix(matrix)
+    inverse_matrix = GaussMethod.inverse_matrix(matrix)
     print("Inverse matrix: ")
     for line in inverse_matrix:
         print(line)
 
     print()
-    GaussMethod.errorEstimates(matrix_copy, equation.X)
+    GaussMethod.error_estimates(matrix_copy, equation.X)
 
 
 
