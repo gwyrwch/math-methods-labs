@@ -7,8 +7,11 @@ class SquareRootMethod:
     @staticmethod
     def solve(equation):
         a_t = SquareRootMethod.transpose_matrix([line[:-1] for line in equation.A])
+
         new_b = SquareRootMethod.matrix_product(a_t, [line[-1:] for line in equation.A])
+        print(new_b)
         equation.A = SquareRootMethod.matrix_product(a_t, [line[:-1] for line in equation.A])
+
 
         u = SquareRootMethod.find_matrix_u(equation.A)
         u_t = SquareRootMethod.transpose_matrix(u)
