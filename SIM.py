@@ -46,7 +46,7 @@ class SIM:
 
     @staticmethod
     def get_number_of_iterations(rateB, x0, x1):
-        epsilon = 0.01
+        epsilon = 0.0001
         rate_x = 0
         for i in range(len(x0)):
             rate_x = max(rate_x, abs(x0[i] - x1[i]))
