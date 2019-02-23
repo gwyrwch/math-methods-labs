@@ -12,7 +12,6 @@ class SquareRootMethod:
         print(new_b)
         equation.A = SquareRootMethod.matrix_product(a_t, [line[:-1] for line in equation.A])
 
-
         u = SquareRootMethod.find_matrix_u(equation.A)
         u_t = SquareRootMethod.transpose_matrix(u)
 

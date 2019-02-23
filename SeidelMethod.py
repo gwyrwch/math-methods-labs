@@ -1,4 +1,6 @@
 from SIM import SIM
+
+
 class SeidelMethod:
     @staticmethod
     def solve(equation):
@@ -26,8 +28,6 @@ class SeidelMethod:
                 res_x += equation.A[i][j] * equation.seidel_matrix[j][iter_num if j < i else iter_num - 1]
 
             equation.seidel_matrix[i].append(res_x + equation.A[i][equation.m])
-
-
 
     @staticmethod
     def check_condition(equation, iter_num):

@@ -1,6 +1,7 @@
 from GaussMethod import GaussMethod
 from math import log
 
+
 class SIM:
 
     @staticmethod
