@@ -1,5 +1,5 @@
 from RotationMethod import RotationMethod
-
+from PrintMethods import PrintMethods
 
 if __name__ == '__main__':
     f = open("input.txt")
@@ -9,7 +9,9 @@ if __name__ == '__main__':
         for line in f
     ]
 
+    RotationMethod.check_with_numpy(matrix)
     RotationMethod.find_eigenvalue(matrix)
+
 
 
 
