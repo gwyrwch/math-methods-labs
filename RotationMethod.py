@@ -1,5 +1,5 @@
 from SquareRootMethod import SquareRootMethod
-from PrintMethods import PrintMethods
+from PrintingMethods import PrintMethods
 from math import atan
 from math import cos
 from math import sin
@@ -10,8 +10,9 @@ class RotationMethod:
     @staticmethod
     def find_eigenvalue(matrix):
         output_file = open('output.txt', 'w')
-        epsilon = 0.001
-        matrix = RotationMethod.symmetrize_the_matrix(matrix)
+        epsilon = 0.00001
+        if not RotationMethod.is_symmetrical(matrix):
+            matrix = RotationMethod.symmetrize_the_matrix(matrix)
         output_file.write('\n'.join(['Symmetrized matrix :', '\n']))
 
         output_file.write('\n'.join([
@@ -63,10 +64,21 @@ class RotationMethod:
 
         print('Results with rotation method: ', 'Matrix eigenvalues: ', sep='\n')
         for i in range(len(matrix)):
-            print(round(matrix[i][i], 3), end=" ")
+            print(round(matrix[i][i], 3), end=' ')
 
         print('\n\nMatrix eigenvectors: ')
         PrintMethods.print_matrix(u)
+
+    @staticmethod
+    def is_symmetrical(matrix):
+        cnt = 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix)):
+                if i != j and matrix[i][j] == matrix[j][i]:
+                    cnt += 1
+        if cnt:
+            return True
+        return False
 
     @staticmethod
     def symmetrize_the_matrix(matrix):
@@ -77,7 +89,9 @@ class RotationMethod:
     @staticmethod
     def check_with_numpy(matrix):
         print('Results with numpy library: ', 'Matrix eigenvalues: ', sep='\n')
-        matrix = RotationMethod.symmetrize_the_matrix(matrix)
+        if not RotationMethod.is_symmetrical(matrix):
+            matrix = RotationMethod.symmetrize_the_matrix(matrix)
+
         for i in linalg.eig(matrix)[0]:
             print(round(i, 3), end=" ")
 
@@ -98,8 +112,9 @@ class RotationMethod:
 
     @staticmethod
     def find_phi(matrix, i0, j0):
-        if abs(matrix[i0][i0] - matrix[j0][j0]) == 10**-9:
-            raise ZeroDivisionError()
+        if abs(matrix[i0][i0] - matrix[j0][j0]) == 10**-9 or abs(matrix[i0][i0] - matrix[j0][j0]) == 0:
+            print('Division by zero')
+            exit(1)
 
         return 1 / 2 * atan(
             2 * matrix[i0][j0] / (matrix[i0][i0] - matrix[j0][j0])
