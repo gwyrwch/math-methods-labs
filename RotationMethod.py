@@ -9,11 +9,10 @@ from numpy import linalg
 class RotationMethod:
     @staticmethod
     def find_eigenvalue(matrix):
-        output_file = open("output.txt", 'w')
+        output_file = open('output.txt', 'w')
         epsilon = 0.001
         matrix = RotationMethod.symmetrize_the_matrix(matrix)
-        output_file.write('\n'.join(["Symmetrized matrix :"]))
-        output_file.write('\n')
+        output_file.write('\n'.join(['Symmetrized matrix :', '\n']))
 
         output_file.write('\n'.join([
             str([round(el, 3) for el in i])
@@ -33,13 +32,16 @@ class RotationMethod:
             if abs(matrix[i][j]) < epsilon:
                 break
 
-            output_file.write(" ".join(["Position of max element: ", str(round(matrix[i][j], 3)), "is", str(i), str(j)]))
-            output_file.write('\n')
+            output_file.write(' '.join([
+                    'Position of max element:',
+                    str(round(matrix[i][j], 3)), 'is', str(i), str(j), "\n"
+                ]
+            ))
 
             u0 = RotationMethod.find_u0(matrix, i, j)
-            output_file.write("Matrix U" + str(cnt))
-            output_file.write('\n')
+            output_file.write(''.join(['Matrix U', str(cnt), '\n']))
 
+            # todo: code is the same code is down (make func)
             output_file.write('\n'.join([
                 str([(round(el, 3)) for el in i])
                 for i in u0
@@ -49,8 +51,7 @@ class RotationMethod:
             u = SquareRootMethod.matrix_product(u, u0)
             matrix = RotationMethod.do_iteration(matrix, u0)
 
-            output_file.write("Matrix A" + str(cnt))
-            output_file.write('\n')
+            output_file.write("".join(['Matrix A', str(cnt), '\n']))
 
             output_file.write('\n'.join([
                 str([(round(el, 3)) for el in i])
@@ -60,11 +61,11 @@ class RotationMethod:
 
             cnt += 1
 
-        print("Results with rotation method: ", "Matrix eigenvalues: ", sep="\n")
+        print('Results with rotation method: ', 'Matrix eigenvalues: ', sep='\n')
         for i in range(len(matrix)):
             print(round(matrix[i][i], 3), end=" ")
 
-        print("\n\nMatrix eigenvectors: ")
+        print('\n\nMatrix eigenvectors: ')
         PrintMethods.print_matrix(u)
 
     @staticmethod
@@ -75,12 +76,12 @@ class RotationMethod:
 
     @staticmethod
     def check_with_numpy(matrix):
-        print("Results with numpy library: ", "Matrix eigenvalues: ", sep="\n")
+        print('Results with numpy library: ', 'Matrix eigenvalues: ', sep='\n')
         matrix = RotationMethod.symmetrize_the_matrix(matrix)
         for i in linalg.eig(matrix)[0]:
             print(round(i, 3), end=" ")
 
-        print("\n\nMatrix eigenvectors: ")
+        print('\n\nMatrix eigenvectors: ')
         PrintMethods.print_matrix(linalg.eig(matrix)[1])
 
     @staticmethod

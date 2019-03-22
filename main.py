@@ -2,7 +2,7 @@ from RotationMethod import RotationMethod
 from PrintMethods import PrintMethods
 
 if __name__ == '__main__':
-    f = open("input.txt")
+    f = open('input.txt')
 
     matrix = [
         list(map(float, line.split()))
